@@ -122,6 +122,91 @@ Each robot is registered with the MAC addresses of the other two robots. When a 
 
 ---
 
+### 8. Firmware — Navigation Logic ⚙️
+
+Each robot runs the same firmware. The logic is cell-based: the robot always stops at the center of a maze cell, reads its sensors, decides a direction, turns if needed, and then drives exactly one cell forward. This repeats until the maze is fully explored.
+
+#### Sensor Reading
+
+Three ultrasonic sensors (left, front, right) are fired one at a time with a short delay between them to avoid cross-interference. Each sensor emits a 10µs trigger pulse and measures the echo duration. Distance in centimetres is derived from the travel time of sound. A 25ms timeout is applied so that an absent wall (open corridor) returns a safe large value rather than blocking execution.
+
+```cpp
+long readUltrasonic(int echoPin, int trigPin) {
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  long duration = pulseIn(echoPin, HIGH, 25000);
+  if (duration == 0) return 999;
+  return duration * 0.034 / 2;
+}
+```
+
+#### Decision Making — Depth-First Search (No Fixed Goal)
+
+Each robot explores the maze using DFS with no predefined destination. The objective is full maze coverage — the robot keeps moving into unvisited cells until every reachable cell has been seen.
+
+At each cell, the robot checks which neighbouring directions are open using sensor thresholds and then prioritises directions that have not yet been visited. This is the core of DFS: always go deeper into unexplored territory before backtracking. Visited cells are tracked in an internal stack and map. When all neighbours of the current cell are already visited, the robot backtracks along the stack until it finds a cell with at least one unvisited neighbour, then continues exploring from there.
+
+The movement priority order when multiple open directions are available is: right → front → left. If all adjacent open cells are already visited, the robot backtracks (U-turn or retracing steps) rather than stopping.
+
+```cpp
+bool openRight = (sensor[2].dist > WALL_SIDE_OPEN_CM);
+bool openFront = (sensor[1].dist > WALL_DETECT_CM);
+bool openLeft  = (sensor[0].dist > WALL_SIDE_OPEN_CM);
+
+// Prefer unvisited neighbours; fall back to backtrack if all visited
+if      (openRight && !visited[rightNeighbour]) action = 'R';
+else if (openFront && !visited[frontNeighbour]) action = 'F';
+else if (openLeft  && !visited[leftNeighbour])  action = 'L';
+else                                             action = 'B'; // backtrack
+```
+
+Because there is no goal cell, exploration continues until the DFS stack is empty, meaning every accessible cell has been visited. This makes DFS well suited for full maze mapping before any shortest-path optimisation is applied.
+
+#### Turning — PID on Encoder Ticks
+
+Turns are executed by driving the two wheels in opposite directions and counting encoder ticks. A PID controller watches how far the average of both encoders has progressed toward the target tick count and adjusts motor speed smoothly. A second correction term keeps both wheels spinning at the same rate so the turn stays tight and the robot ends up pointing in the right direction.
+
+- 90° right turn target: `-505` ticks  
+- 90° left turn target: `+505` ticks  
+- 180° U-turn: two 90° right turns combined
+
+The loop exits when the remaining error drops below 10 ticks, at which point both motors stop.
+
+#### Moving One Cell — Wall-Following PID
+
+`moveOneCellAlign()` drives the robot exactly one cell length (`TICKS_PER_CELL = 950` ticks on average) while actively keeping it centered in the corridor.
+
+Two corrections are blended together every 20ms:
+
+**Wall-centering error:** If both side walls are visible and valid, the robot tries to equalise the left and right distances. If only one wall is present, it holds a fixed 5 cm clearance from that wall. If neither wall is in range it falls back to encoder sync only.
+
+**Encoder sync error:** The difference in tick increments between the right and left encoder since the last sample. This catches any speed mismatch between the two motors and trims the PWM values to keep the robot driving straight even in the absence of wall data.
+
+```cpp
+float wallCorr = FW_KP * err + FW_KD * derr;   // proportional + derivative on wall error
+float syncCorr = SYNC_KP * syncErr;             // proportional on encoder delta
+
+int pwmRight = BasePWM - wallCorr - syncCorr;
+int pwmLeft  = BasePWM + wallCorr + syncCorr;
+```
+
+If the front sensor detects a wall closer than `WALL_DETECT_CM` (4 cm) before the tick target is reached, the robot stops early to avoid a collision. Once the tick target is met, both motors stop hard.
+
+#### Calibration Constants
+
+These values must be tuned for each physical robot before deployment:
+
+| Constant | Default | Meaning |
+|---|---|---|
+| `TICKS_PER_CELL` | 950 | Encoder ticks for one maze cell |
+| `TICKS_FOR_90_DEG_TURN_LEFT` | 505 | Ticks for a 90° left turn |
+| `BasePWM` | 215 | Base drive speed (0–255) |
+| `WALL_DETECT_CM` | 4 | Front wall blocking threshold |
+| `SIDE_TARGET_CM` | 5 | Desired side clearance while moving |
+
+---
+
 ## Repository Structure
 
 ```
@@ -168,13 +253,3 @@ swarm-micromouse/
 2. Install the ESP32 board support package.
 3. Open the firmware from the `firmware/main/` directory.
 4. Flash to each ESP32, ensuring each robot is assigned its unique device ID and the MAC addresses of the other two robots are correctly configured in the ESP-NOW setup.
-
----
-
-## Future Work
-
-- Complete and test ESP-NOW swarm communication on physical hardware.
-- Implement full maze mapping with real-time shared state across all three robots.
-- Optimize path planning for the return run (shortest path after full maze is known).
-- Add battery monitoring and low-power sleep modes between moves.
-- Evaluate performance metrics: total exploration time, path length, number of redundant cell visits.
