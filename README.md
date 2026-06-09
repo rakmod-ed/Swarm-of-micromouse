@@ -171,17 +171,6 @@ swarm-micromouse/
 
 ---
 
-## Current Status
-
-- Single-robot path planning (BFS, DFS, A*): Complete
-- Multi-agent simulation with simultaneous exploration: Complete
-- Hardware assembly and single-bot physical testing: Complete
-- Circuit design on TinkerCad: Complete
-- CAD model and 3D printing: Complete
-- ESP-NOW communication implementation: In Progress
-
----
-
 ## Future Work
 
 - Complete and test ESP-NOW swarm communication on physical hardware.
