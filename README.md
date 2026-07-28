@@ -210,7 +210,7 @@ These values must be tuned for each physical robot before deployment:
 ## Repository Structure
 
 ```
-swarm-micromouse/
+codes_and_resources/
 ├── simulation/
 │   ├── bfs_single.py          # BFS on a single agent using PyMaze
 │   ├── dfs_single.py          # DFS with configurable movement preferences
