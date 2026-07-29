@@ -54,16 +54,25 @@ Each Micromouse was built from scratch using the following components:
 |---|---|
 | Microcontroller | ESP32 |
 | Distance Sensors | Ultrasonic sensors x3 (front, left, right) |
-| Drive Motors | GM20 DC Motors, 6V, with encoders x2 |
+| Drive Motors | N20 DC Motors, 6V, with encoders x2 |
 | Motor Driver | L293D |
 | Power Source | LiPo battery, 6V |
 | Voltage Regulation | Buck converter |
 
-The ESP32 was chosen as the microcontroller because it provides onboard Wi-Fi and Bluetooth, supports the ESP-NOW protocol natively, and has sufficient GPIO pins and processing power for real-time sensor reading and motor control.
+ESP32 Microcontroller
+The ESP32 acts as the central controller of the Micromouse, handling sensor processing, motor control, localization, and wireless communication. It was chosen for its dual-core processing capability, ample GPIO pins, built-in PWM and interrupt support, and native compatibility with the ESP-NOW protocol, enabling low-latency peer-to-peer communication between robots for real-time sharing of maze and wall data without requiring a Wi-Fi router.
 
-The three ultrasonic sensors are mounted to detect walls on the front and both sides of the robot, enabling the robot to determine available paths at each cell.
+Ultrasonic Sensors
+Three HC-SR04 ultrasonic sensors are mounted at the front, left, and right of the robot to detect surrounding walls by measuring echo return time. The sensor data is used to identify valid paths, update the maze map, and assist in maintaining proper wall alignment during navigation, providing the environmental information required for maze exploration.
 
-The GM20 motors with encoders allow precise odometry, meaning the robot can track how far it has traveled and correct its position within the maze.
+N20 Motors with Encoders
+The robot uses two N20 DC geared motors with quadrature encoders in a differential-drive configuration. The encoders provide continuous feedback on wheel rotation, enabling accurate odometry for estimating distance traveled and robot orientation. This feedback is integrated with a PID controller to maintain straight-line motion, execute precise turns, and ensure accurate positioning within maze cells.
+
+Motor Driver
+A dual H-bridge motor driver interfaces the ESP32 with the GM20 motors, supplying the required current while allowing independent control of each motor's speed and direction. The ESP32 generates PWM signals for speed regulation and digital control signals for forward, reverse, and turning maneuvers.
+
+Custom PCB and Chassis
+A custom PCB was designed to integrate the ESP32, motor driver, sensor interfaces, encoder connections, and power distribution into a compact and reliable platform, reducing wiring complexity and improving robustness. The chassis was CAD-designed to optimize component placement, weight distribution, and sensor positioning while meeting the dimensional constraints of a Micromouse robot.
 
 ---
 
