@@ -59,19 +59,19 @@ Each Micromouse was built from scratch using the following components:
 | Power Source | LiPo battery, 6V |
 | Voltage Regulation | Buck converter |
 
-ESP32 Microcontroller
+ESP32 Microcontroller:
 The ESP32 acts as the central controller of the Micromouse, handling sensor processing, motor control, localization, and wireless communication. It was chosen for its dual-core processing capability, ample GPIO pins, built-in PWM and interrupt support, and native compatibility with the ESP-NOW protocol, enabling low-latency peer-to-peer communication between robots for real-time sharing of maze and wall data without requiring a Wi-Fi router.
 
-Ultrasonic Sensors
+Ultrasonic Sensors:
 Three HC-SR04 ultrasonic sensors are mounted at the front, left, and right of the robot to detect surrounding walls by measuring echo return time. The sensor data is used to identify valid paths, update the maze map, and assist in maintaining proper wall alignment during navigation, providing the environmental information required for maze exploration.
 
-N20 Motors with Encoders
+N20 Motors with Encoders:
 The robot uses two N20 DC geared motors with quadrature encoders in a differential-drive configuration. The encoders provide continuous feedback on wheel rotation, enabling accurate odometry for estimating distance traveled and robot orientation. This feedback is integrated with a PID controller to maintain straight-line motion, execute precise turns, and ensure accurate positioning within maze cells.
 
-Motor Driver
+Motor Driver:
 A dual H-bridge motor driver interfaces the ESP32 with the GM20 motors, supplying the required current while allowing independent control of each motor's speed and direction. The ESP32 generates PWM signals for speed regulation and digital control signals for forward, reverse, and turning maneuvers.
 
-Custom PCB and Chassis
+Custom PCB and Chassis:
 A custom PCB was designed to integrate the ESP32, motor driver, sensor interfaces, encoder connections, and power distribution into a compact and reliable platform, reducing wiring complexity and improving robustness. The chassis was CAD-designed to optimize component placement, weight distribution, and sensor positioning while meeting the dimensional constraints of a Micromouse robot.
 
 ---
