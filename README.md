@@ -136,6 +136,9 @@ Two communication models were considered:
 
 Each robot is registered with the MAC addresses of the other two robots. When a robot moves to a new cell, it broadcasts its position. All robots maintain a shared map of explored cells, updated in real time as position data arrives.
 
+![ESP-NOW Communication](media/esp_now.png)
+
+
 ---
 
 ### 8. Firmware — Navigation Logic ⚙️
