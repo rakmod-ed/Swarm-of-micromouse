@@ -99,8 +99,6 @@ Single-bot testing was conducted on the physical hardware before swarm behavior 
 
 ![CAD Design](media/cad.png)
 
-![Micromouse Robot](media/bot2jpeg.jpeg)
-
 
 ---
 
@@ -142,6 +140,9 @@ Each robot is registered with the MAC addresses of the other two robots. When a 
 ---
 
 ### 8. Firmware — Navigation Logic ⚙️
+
+![Micromouse Robot](media/bot2jpeg.jpeg)
+
 
 Each robot runs the same firmware. The logic is cell-based: the robot always stops at the center of a maze cell, reads its sensors, decides a direction, turns if needed, and then drives exactly one cell forward. This repeats until the maze is fully explored.
 
