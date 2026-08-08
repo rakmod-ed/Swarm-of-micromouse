@@ -80,6 +80,8 @@ A custom PCB was designed to integrate the ESP32, motor driver, sensor interface
 
 The circuit was first designed and verified on TinkerCad before physical assembly.
 
+![TinkerCad Circuit](media/tinkercad.png)
+
 **Power distribution:**
 - A 6V LiPo battery powers the motors via pin 8 (Vcc2) of the L293D motor driver.
 - The Arduino/ESP32 5V output powers the L293D logic supply via pin 16 (Vcc1) and also supplies the ultrasonic sensors via the breadboard 5V rail.
