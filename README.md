@@ -224,6 +224,8 @@ These values must be tuned for each physical robot before deployment:
 | `WALL_DETECT_CM` | 4 | Front wall blocking threshold |
 | `SIDE_TARGET_CM` | 5 | Desired side clearance while moving |
 
+![Maze Travel](media/maze_travel_github.gif)
+
 ---
 
 ## Repository Structure
