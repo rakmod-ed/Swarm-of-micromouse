@@ -97,6 +97,11 @@ The mechanical chassis was designed as a CAD model scaled to the dimensions of t
 
 Single-bot testing was conducted on the physical hardware before swarm behavior was introduced.
 
+![CAD Design](media/cad.png)
+
+![Micromouse Robot](media/bot.jpg)
+
+
 ---
 
 ### 6. Swarm Intelligence
