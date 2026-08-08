@@ -99,7 +99,7 @@ Single-bot testing was conducted on the physical hardware before swarm behavior 
 
 ![CAD Design](media/cad.png)
 
-![Micromouse Robot](media/bot.jpg)
+![Micromouse Robot](media/bot2jpeg.jpeg)
 
 
 ---
