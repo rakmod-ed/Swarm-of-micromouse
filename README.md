@@ -55,7 +55,7 @@ Each Micromouse was built from scratch using the following components:
 | Microcontroller | ESP32 |
 | Distance Sensors | Ultrasonic sensors x3 (front, left, right) |
 | Drive Motors | N20 DC Motors, 6V, with encoders x2 |
-| Motor Driver | L293D |
+| Motor Driver | TB6612FNG |
 | Power Source | LiPo battery, 6V |
 | Voltage Regulation | Buck converter |
 
@@ -83,11 +83,11 @@ The circuit was first designed and verified on TinkerCad before physical assembl
 ![TinkerCad Circuit](media/tinkercad.png)
 
 **Power distribution:**
-- A 6V LiPo battery powers the motors via pin 8 (Vcc2) of the L293D motor driver.
-- The Arduino/ESP32 5V output powers the L293D logic supply via pin 16 (Vcc1) and also supplies the ultrasonic sensors via the breadboard 5V rail.
+- A 6V LiPo battery powers the motors via pin 8 (Vcc2) of the TB6612FNG motor driver.
+- The Arduino/ESP32 5V output powers the TB6612FNG logic supply via pin 16 (Vcc1) and also supplies the ultrasonic sensors via the breadboard 5V rail.
 - All components share a common ground reference to prevent floating ground issues.
 
-The L293D motor driver handles bidirectional motor control for both drive motors, with enable and direction pins connected to the ESP32's GPIO outputs.
+The TB6612FNG motor driver handles bidirectional motor control for both drive motors, with enable and direction pins connected to the ESP32's GPIO outputs.
 
 ---
 
