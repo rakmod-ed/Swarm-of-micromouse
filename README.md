@@ -69,7 +69,7 @@ N20 Motors with Encoders:
 The robot uses two N20 DC geared motors with quadrature encoders in a differential-drive configuration. The encoders provide continuous feedback on wheel rotation, enabling accurate odometry for estimating distance traveled and robot orientation. This feedback is integrated with a PID controller to maintain straight-line motion, execute precise turns, and ensure accurate positioning within maze cells.
 
 Motor Driver:
-A dual H-bridge motor driver interfaces the ESP32 with the GM20 motors, supplying the required current while allowing independent control of each motor's speed and direction. The ESP32 generates PWM signals for speed regulation and digital control signals for forward, reverse, and turning maneuvers.
+A dual H-bridge motor driver interfaces the ESP32 with the N20 motors, supplying the required current while allowing independent control of each motor's speed and direction. The ESP32 generates PWM signals for speed regulation and digital control signals for forward, reverse, and turning maneuvers.
 
 Custom PCB and Chassis:
 A custom PCB was designed to integrate the ESP32, motor driver, sensor interfaces, encoder connections, and power distribution into a compact and reliable platform, reducing wiring complexity and improving robustness. The chassis was CAD-designed to optimize component placement, weight distribution, and sensor positioning while meeting the dimensional constraints of a Micromouse robot.
