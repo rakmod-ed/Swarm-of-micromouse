@@ -28,7 +28,7 @@ BFS was the first algorithm implemented. Using the PyMaze library, a randomly ge
 **Depth-First Search (DFS)**
 DFS was tested with varying configurations, including different loop percentages and movement preferences (e.g., ENSW, WSNE ordering). While DFS successfully navigates mazes, it does not guarantee the shortest path, which was confirmed experimentally during testing.
 
-**A* (A-Star)**
+**A-Star**
 A* was implemented in Python to simulate maze solving. It uses a heuristic function (typically Manhattan distance) to guide the search, combining the cost-so-far and estimated cost-to-goal. This makes it significantly more efficient than BFS in large mazes. A* is the intended algorithm for the swarm robots in the final implementation.
 
 ---
