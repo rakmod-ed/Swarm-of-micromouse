@@ -233,19 +233,25 @@ These values must be tuned for each physical robot before deployment:
 
 ```
 codes_and_resources/
-├── simulation/
-│   ├── bfs_single.py          # BFS on a single agent using PyMaze
-│   ├── dfs_single.py          # DFS with configurable movement preferences
-│   ├── astar_single.py        # A* algorithm simulation
-│   └── multiagent_bfs.py      # Simultaneous multi-agent BFS exploration
-├── hardware/
-│   ├── circuit/               # TinkerCad circuit design files
-│   └── cad/                   # CAD model files for 3D printing
-├── firmware/
-│   ├── main/                  # Main ESP32 firmware
-│   ├── espnow/                # ESP-NOW communication implementation
-│   └── motor_control/         # Motor driver and encoder logic
-└── README.md
+├── hardware/                          # 3D CAD models for robot fabrication
+│   ├── BasePlate.stl                  # Main structural base of the robot
+│   ├── Brackets.stl                   # Mounting brackets for components
+│   ├── Mid Plate.stl                  # Intermediate structural support plate
+│   └── Top plate.stl                  # Upper structural plate
+│
+├── simulation/                        # Python-based maze-solving simulations
+│   ├── maze_simulation_a_star.py      # Single-agent A* pathfinding simulation
+│   ├── maze_simulation_bfs.py         # Single-agent BFS maze-solving simulation
+│   ├── maze_simulation_dfs.py         # Single-agent DFS maze-solving simulation
+│   ├── multi_agent_a_star.py          # Multi-agent A* pathfinding simulation
+│   ├── multi_agent_bfs.py             # Multi-agent BFS exploration simulation
+│   ├── multi_agent_dfs.py             # Multi-agent DFS exploration simulation
+│   └── swarm_simulation.py            # Multi-agent swarm exploration simulation
+│
+├── firmware/                          # ESP32-based robot control firmware
+│   └── maze_travel.ino                # Main firmware for maze navigation and robot control
+│
+└── README.md                          # Project documentation
 ```
 
 ---
